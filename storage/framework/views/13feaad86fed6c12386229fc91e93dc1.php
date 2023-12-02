@@ -182,7 +182,7 @@
         </div>
         <div class="col-md-12">
 
-                <form action="<?php echo e(route('admin.add-country')); ?>" method="post" enctype="multipart/form-data">
+                <form action="" method="post" enctype="multipart/form-data">
                     <?php echo e(csrf_field()); ?>
 
 

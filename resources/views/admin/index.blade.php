@@ -182,7 +182,7 @@
         </div>
         <div class="col-md-12">
 
-                <form action="{{ route('admin.add-link') }}" method="post" enctype="multipart/form-data">
+                <form action="" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="card">

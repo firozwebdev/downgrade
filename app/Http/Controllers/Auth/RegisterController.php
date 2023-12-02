@@ -49,11 +49,11 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-    
+
 	public function register(Request $request)
     {
          $sid = 1;
-	    $setting['setting'] = Settings::editGeneral($sid);
+         $setting['setting'] = Settings::editGeneral($sid);
 		 $name = $request->input('name');
 		 $username = $request->input('username');
          $email = $request->input('email');
@@ -78,18 +78,18 @@ class RegisterController extends Controller
 			  $wallet_amount = $referred['display']->earnings + $referral_commission;
 			  $referral_amount = $referred['display']->referral_amount + $referral_commission;
 			  $referral_count = $referred['display']->referral_count + 1;
-			  
+
 			  $update_data = array('earnings' => $wallet_amount, 'referral_amount' => $referral_amount, 'referral_count' => $referral_count);
 			  Members::updateReferral($referral_by,$update_data);
 		   } */
-		   $referral_payout = 'pending'; 
+		   $referral_payout = 'pending';
          }
 		 else
 		 {
 		  $referral_by = "";
 		  $referral_payout = "";
 		 }
-		 
+
 		if($setting['setting']->site_google_recaptcha == 1)
 		{
 			$request->validate([
@@ -98,8 +98,8 @@ class RegisterController extends Controller
 								'email' => 'required|email',
 								'password' => ['required', 'min:6'],
 								'g-recaptcha-response' => 'required|recaptchav3:register,0.5'
-								
-								
+
+
 			 ]);
 		}
 		else
@@ -109,31 +109,31 @@ class RegisterController extends Controller
 								'username' => 'required',
 								'email' => 'required|email',
 								'password' => ['required', 'min:6'],
-								
-								
-								
+
+
+
 			 ]);
-		} 
+		}
 		 $rules = array(
 				'username' => ['required', 'regex:/^[\w-]*$/', 'max:255', Rule::unique('users') -> where(function($sql){ $sql->where('drop_status','=','no');})],
 				'email' => ['required', 'email', 'max:255', Rule::unique('users') -> where(function($sql){ $sql->where('drop_status','=','no');})],
-				
+
 	     );
-		 
+
 		 $messsages = array(
-		      
+
 	    );
-		 
+
 		$validator = Validator::make($request->all(), $rules,$messsages);
-		
-		if ($validator->fails()) 
+
+		if ($validator->fails())
 		{
 		 $failedRules = $validator->failed();
 		 return back()->withErrors($validator);
-		} 
+		}
 		else
 		{
-		
+
 		  if($setting['setting']->email_verification == 1)
 		  {
 		  $verified = 0;
@@ -143,18 +143,18 @@ class RegisterController extends Controller
 		  $verified = 1;
 		  }
 		  $user_token = $this->generateRandomString();
-		 
+
 		$register_url = URL::to('/user-verify/').'/'.$user_token;
-		 
+
 		$data = array('name' => $name, 'username' => $username, 'email' => $email, 'user_type' => $user_type, 'password' => $password, 'earnings' => $earnings, 'verified' => $verified, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'), 'user_token' => $user_token, 'referral_by' => $referral_by, 'register_url' => $register_url, 'referral_payout' => $referral_payout);
-		
-		
-		
+
+
+
 		$from_name = $setting['setting']->sender_name;
         $from_email = $setting['setting']->sender_email;
-		
+
 		Members::insertData($data);
-		
+
 		if($setting['setting']->email_verification == 1)
 		{
 		/* email template code */
@@ -168,7 +168,7 @@ class RegisterController extends Controller
 			  {
 			  $template_subject = "Email Confirmation For Registration";
 			  }
-			  /* email template code */	
+			  /* email template code */
 		Mail::send('register_mail', $data, function($message) use ($from_name, $from_email, $email, $name, $user_token, $register_url, $template_subject) {
 			$message->to($email, $name)
 					->subject($template_subject);
@@ -180,14 +180,14 @@ class RegisterController extends Controller
 		{
 		return redirect('login')->with('success','Your account has been created. You can now login.');
 		}
-		  
+
      }
 
-       
 
-        
+
+
     }
-	
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -219,8 +219,8 @@ class RegisterController extends Controller
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
-    } 
-	 
+    }
+
     protected function create(array $data)
     {
 	    $sid = 1;
@@ -236,7 +236,7 @@ class RegisterController extends Controller
 			  $wallet_amount = $referred['display']->earnings + $referral_commission;
 			  $referral_amount = $referred['display']->referral_amount + $referral_commission;
 			  $referral_count = $referred['display']->referral_count + 1;
-			  
+
 			  $update_data = array('earnings' => $wallet_amount, 'referral_amount' => $referral_amount, 'referral_count' => $referral_count);
 			  Members::updateReferral($referral_by,$update_data);
 		   } */
@@ -246,7 +246,7 @@ class RegisterController extends Controller
 		 {
 		  $referral_by = "";
 		  $referral_payout = "";
-		 } 
+		 }
         $token = $this->generateRandomString();
 		if($setting['setting']->site_google_recaptcha == 1)
 		{
@@ -258,10 +258,10 @@ class RegisterController extends Controller
 				'user_token' => $token,
 				'earnings' => 0,
 				'user_type' => $data['user_type'],
-				'referral_by' => $referral_by, 
+				'referral_by' => $referral_by,
 				'referral_payout' => $referral_payout,
 				'g-recaptcha-response' => 'required|recaptchav3:register,0.5'
-					
+
 			]);
 		}
 		else
@@ -274,11 +274,11 @@ class RegisterController extends Controller
 				'user_token' => $token,
 				'earnings' => 0,
 				'user_type' => $data['user_type'],
-				'referral_by' => $referral_by, 
+				'referral_by' => $referral_by,
 				'referral_payout' => $referral_payout,
-				
-					
+
+
 			]);
-		}	
+		}
     }
 }

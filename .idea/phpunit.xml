@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PHPUnit">
+    <option name="directories">
+      <list>
+        <option value="$PROJECT_DIR$/app/mercadopago/doctrine/deprecations/tests" />
+        <option value="$PROJECT_DIR$/app/mercadopago/doctrine/lexer/tests" />
+        <option value="$PROJECT_DIR$/app/mercadopago/doctrine/event-manager/tests" />
+        <option value="$PROJECT_DIR$/app/mercadopago/doctrine/common/tests" />
+        <option value="$PROJECT_DIR$/app/mercadopago/doctrine/persistence/tests" />
+        <option value="$PROJECT_DIR$/app/mercadopago/doctrine/annotations/tests" />
+        <option value="$PROJECT_DIR$/app/mercadopago/mercadopago/dx-php/tests" />
+        <option value="$PROJECT_DIR$/tests/Unit" />
+        <option value="$PROJECT_DIR$/tests/Feature" />
+      </list>
+    </option>
+  </component>
+</project>
